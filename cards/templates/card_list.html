@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Speedmilhas - Cartões
+{% endblock %}
+
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col md-6">
+        <form method="get" action="{% url 'card_list' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="name" placeholder="Nome" value="{{ request.GET.name }}">
+                <input type="text" class="form-control" name="owner" placeholder="Proprietário" value="{{ request.GET.owner }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col md-6">
+        <a href="{% url 'card_create' %}" class="btn btn-success float-end">
+            <i class="bi bi-plus">Novo Cartão</i>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Proprietário</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for card in cards %}
+            <tr>
+                <td>{{ card.id }}</td>
+                <td>{{ card.name }}</td>
+                <td>{{ card.owner }}</td>
+                <td>{{ card.description }}</td>
+                <td>
+                    <a href="{% url 'card_detail' card.id %}" class="btn btn-info btn-sm">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a href="{% url 'card_update' card.id %}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <a href="{% url 'card_delete' card.id %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'components/_pagination.html' %}
+
+{% endblock %}
