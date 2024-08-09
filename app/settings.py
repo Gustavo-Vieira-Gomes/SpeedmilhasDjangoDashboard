@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'airlines',
     'clients',
     'cards',
+    'accounts',
 ]
 
 MIDDLEWARE = [

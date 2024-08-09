@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="display-6">Detalhes da Conta</h3>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Titular: {{ object.holder }}</h3>
+            <p class="card-text">Número da Conta: {{ object.account_number }}</p>
+            <p class="card-text">Login: {{ object.account_login }}</p>
+            <p class="card-text">Senha: {{ object.password }}</p>
+            <p class="card-text">Documento do Titular: {{ object.holder_id }}</p>
+        </div>
+    </div>
+    <a href="{% url 'account_list' %}" class="btn btn-secondary mt-3">Voltar para a lista de Contas</a>
+</div>
+
+{% endblock %}
