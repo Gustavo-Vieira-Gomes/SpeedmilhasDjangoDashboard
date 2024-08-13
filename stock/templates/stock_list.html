@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Speedmilhas - Estoque
+{% endblock %}
+
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col md-6">
+        <form method="get" action="{% url 'stock_list' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="holder" placeholder="Titular da Conta" value="{{ request.GET.holder }}">
+                <input type="text" class="form-control" name="account_login" placeholder="Login da Conta" value="{{ request.GET.account_login }}">
+                <input type="text" class="form-control" name="owner" placeholder="Dono da Conta" value="{{ request.GET.owner }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col md-6">
+        <a href="{% url 'stock_create' %}" class="btn btn-success float-end">
+            <i class="bi bi-plus">Adicionar Conta ao Estoque</i>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Login</th>
+                <th>Senha</th>
+                <th>Titular</th>
+                <th>Data</th>
+                <th>Dono da Conta</th>
+                <th>Proveniência</th>
+                <th>Saldo Atual em Milhas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock_account in stock %}
+            <tr>
+                <td>{{ stock_account.id }}</td>
+                <td>{{ stock_account.account.account_login }}</td>
+                <td>{{ stock_account.account.password }}</td>
+                <td>{{ stock_account.account.holder }}</td>
+                <td>{{ stock_account.date }}</td>
+                <td>{{ stock_account.owner }}</td>
+                <td>{{ stock_account.origin }}</td>
+                <td>{{ stock_account.current_miles_balance }}</td>
+                <td>
+                    <a href="{% url 'stock_detail' stock_account.id %}" class="btn btn-info btn-sm">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a href="{% url 'stock_update' stock_account.id %}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <a href="{% url 'stock_delete' stock_account.id %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'components/_pagination.html' %}
+
+{% endblock %}
