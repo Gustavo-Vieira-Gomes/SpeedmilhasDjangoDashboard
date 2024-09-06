@@ -10,4 +10,5 @@ urlpatterns = [
     path('', include('cards.urls')),
     path('', include('accounts.urls')),
     path('', include('stock.urls')),
+    path('', include('canceled_laps.urls')),
 ]

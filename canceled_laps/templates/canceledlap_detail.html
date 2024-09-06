@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="display-6">Detalhes da Volta Cancelada</h3>
+    
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-text">Localizador: {{ object.ticket_locator }}</h3>
+            <table class="table table-bordered table-striped table-hover table-responsive">
+                <tbody>
+                    <tr>
+                        <td class="card-title">Data de Emissão: {{ object.emission_date }}</td>
+                        <td class="card-text">Número da conta: {{ object.account_login }}</td>
+                        <td class="card-text">Número de CPFs: {{ object.tickets_number }}</td>
+                        <td class="card-text">Lucro Total: R${{ object.total_profit }}</td>
+                    </tr>
+                    <tr>
+                        <td class="card-text">Lucro por CPF: R${{ object.individual_profit }}</td>
+                        <td class="card-text">Emitido por: {{ object.posted_by }}</td>
+                        <td class="card-text">Cartões Usados: {% for card in object.credit_card.all %}{{ card.name }} {% endfor %}</td>
+                        <td class="card-text">Custo Total: R${{ object.total_cost }}</td>
+                    </tr>
+                    <tr>
+                        <td class="card-text">Cliente: {{ object.client }}</td>
+                        <td class="card-text">Extornado no cartão?: {% if object.refunded_on_card %}Sim{% else %}Não{% endif %}</td>
+                        <td class="card-text">Pagamento Verificado?: {% if object.payment_verified %}Sim{% else %}Não{% endif %}</td>
+                        <td class="card-text">Custo por CPF: R${{ object.individual_cost }}</td>
+                    </tr>
+                    <tr>
+                        <td class="card-text">Data/Hora de Cancelamento: {{ object.cancellation_datetime }}</td>
+                        <td class="card-text">Status: {{ object.status }}</td>
+                        <td class="card-text">Cadastrada em: {{ object.created_at }}</td>
+                        <td class="card-text">Última Atualização: {{ object.updated_at }}</td>
+                    </tr>
+                    <tr>
+                        <td class="card-text">Nome do Passageiro: {% if object.passenger_last_name %}{{ object.passenger_last_name }}{% endif %}</td>
+                        <td class="card-text">Custo do cancelamento: {% if object.cancellation_cost %}{{ object.cancellation_cost }}{% endif %}</td>
+                        <td class="card-text">Valor Total da Venda: {% if object.total_selling_price %}{{ object.total_selling_price }}{% endif %}</td>
+                        <td class="card-text">Observações: {% if object.annotations %}{{ object.annotations }}{% endif %}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="{% url 'canceledlap_list' %}" class="btn btn-secondary mt-3">Voltar para a Lista de Voltas Canceladas</a>
+</div>
+
+{% endblock %}

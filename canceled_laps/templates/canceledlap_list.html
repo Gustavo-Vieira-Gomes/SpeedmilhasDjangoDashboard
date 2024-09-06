@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Speedmilhas - Voltas Canceladas
+{% endblock %}
+
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col md-6">
+        <form method="get" action="{% url 'canceledlap_list' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="ticket_locator" placeholder="Localizador" value="{{ request.GET.ticket_locator }}">
+                <input type="text" class="form-control" name="passenger_last_name" placeholder="Sobrenome do Passageiro" value="{{ request.GET.passenger_last_name }}">
+                <input type="text" class="form-control" name="client" placeholder="Cliente" value="{{ request.GET.client }}">
+                <input type="text" class="form-control" name="posted_by" placeholder="Emitido por" value="{{ request.GET.posted_by }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col md-6">
+        <a href="{% url 'canceledlap_create' %}" class="btn btn-success float-end">
+            <i class="bi bi-plus">Adicionar Volta Cancelada</i>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-responsive-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Data de Emissão</th>
+                <th>Número da Conta</th>
+                <th>Custo Total</th>
+                <th>Lucro Total</th>
+                <th>Número de CPFs</th>
+                <th>Cliente</th>
+                <th>Emitido por</th>
+                <th>Localizador</th>
+                <th>Nome do passageiro</th>
+                <th>Data de Cancelamento</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for canceledlap in canceledlaps %}
+            <tr>
+                <td>{{ canceledlap.id }}</td>
+                <td>{{ canceledlap.emission_date }}</td>
+                <td>{{ canceledlap.account_login }}</td>
+                <td>{{ canceledlap.total_cost }}</td>
+                <td>{{ canceledlap.total_profit }}</td>
+                <td>{{ canceledlap.tickets_number }}</td>
+                <td>{{ canceledlap.client }}</td>
+                <td>{{ canceledlap.posted_by }}</td>
+                <td>{{ canceledlap.ticket_locator }}</td>
+                <td>{{ canceledlap.passenger_last_name }}</td>
+                <td>{{ canceledlap.cancellation_datetime }}</td>
+                <td>{{ canceledlap.status }}</td>
+                <td>
+                    <a href="{% url 'canceledlap_detail' canceledlap.id %}" class="btn btn-info btn-sm">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a href="{% url 'canceledlap_update' canceledlap.id %}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <a href="{% url 'canceledlap_delete' canceledlap.id %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'components/_pagination.html' %}
+
+{% endblock %}
